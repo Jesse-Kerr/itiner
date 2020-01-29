@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 from selenium import webdriver
-
+from pprint import pprint
+import re
 # Load list of 140 cities
 top_cities = pd.read_csv("data/top_cities.csv")
 
@@ -45,3 +46,26 @@ for city in top_cities.cities:
             print(p.text, "appended to the dict entry for", city)
 
 driver.close()
+
+# For cities that have no Guide entries, append "None" so that we don't lose the information
+
+for city in city_links.keys():
+    if city_links[city] == []:
+        city_links[city].append("No Guides Exist For This City")
+
+# Save the dict
+df = pd.DataFrame(data = city_links)
+df.to_csv("data/visit_a_city_guides_by_city", index=False)
+
+# A happy accident -- When a keyword I searched for has more than one city that matches,
+# i.e., Porto matches Porto and Porto Venere, I retrieved both of them. Now I want to 
+# separate them into their own list elements
+
+for city in city_links.keys():
+    if (len(city_links[city]) > 1):
+        for dupe_record in city_links[city]:
+            # Get the actual city name, the part that appears before the comma
+            actual_city = re.search("^[^,]*", dupe_record).group(0)
+            city_links[actual_city] = dupe_record
+        # lastly, need to drop the previous crap one
+        city_links.pop(city)
