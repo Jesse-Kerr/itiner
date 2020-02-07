@@ -19,9 +19,9 @@ def get_response_time(origin, destination, time):
     print("Getting travel time between ", origin, " and ", destination, " at ", time)
     url = "".join([
         service_url,
-        "origin=",
+        "origin=place_id:",
         origin,
-        "&destination=", 
+        "&destination=place_id:", 
         destination,
         "&key=",
         api_key,
