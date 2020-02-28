@@ -85,10 +85,10 @@ class VisitACity():
             if (len(city_links[city]) > 1):
                 for dupe_record in city_links[city]:
                     # Get the actual city name, the part that appears before the comma
-                    actual_city = dupe_record.split(",", 1)[0]
+                    actual_city = dupe_record.split(",", 1)
                     dupes_removed_city_links[actual_city] = dupe_record
             else:
-                dupes_removed_city_links[city] = city_links[city]
+                dupes_removed_city_links[city] = city_links[city][0]
         
         return dupes_removed_city_links
 

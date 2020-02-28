@@ -1,9 +1,3 @@
-import urllib
-import json
-from src.constants import service_url
-from src.constants import time0
-
-from src.credentials import api_key
 
 
 def get_response_time(origin, destination, time):
@@ -18,7 +12,7 @@ def get_response_time(origin, destination, time):
     time_to_get = str(time + time0)
     print("Getting travel time between ", origin, " and ", destination, " at ", time)
     url = "".join([
-        service_url,
+        directions_url,
         "origin=place_id:",
         origin,
         "&destination=place_id:", 
@@ -35,4 +29,5 @@ def get_response_time(origin, destination, time):
     traffic_time_in_seconds = traffic_time['value']
     return traffic_time_in_seconds
 
-    
+def get_duration_using_distance_matrix(origins, destinations, times):
+
